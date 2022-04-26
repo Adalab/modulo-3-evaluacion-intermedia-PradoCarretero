@@ -1,6 +1,7 @@
 import "../styles/App.scss";
 import callToApi from "../services/api";
 import { useEffect, useState } from "react";
+import image from "../images/image.png";
 
 function App() {
   const [quoteData, setQuoteData] = useState([]);
@@ -27,9 +28,9 @@ function App() {
     )
 
     .map((any, index) => (
-      <li key={index}>
-        <p>{any.quote}</p>
-        <p>{any.character}</p>
+      <li key={index} className="header__form--phrase">
+        <p className="header__form--quote">{any.quote}</p>
+        <p className="header__form--character">{any.character}</p>
       </li>
     ));
 
@@ -56,64 +57,61 @@ function App() {
 
   return (
     <>
-      <h1>Frases de friends</h1>
-      <form>
-        <label htmlFor="searchQuote">Filtrar por frase</label>
-        <input
-          onChange={handleSearchQuote}
-          value={searchQuote}
-          type="text"
-          name="searchQuote"
-          id="searchQuote"
-        />
-        <label htmlFor="searchCharacter">Filtrar por personaje</label>
-        {/*     <input
-          onChange={handleSearchCharacter}
-          value={searchCharacter}
-          type="text"
-          name="searchCharacter"
-          id="searchCharacter"
-          label="searchCharacter"
-        /> */}
+      <header className="header">
+        <h1 className="header__title">Frases de friends</h1>
+        <img src={image} className="header__img" alt="image friends serie" />
+        <form className="header__form">
+          <label htmlFor="searchQuote">Filtrar por frase</label>
+          <input
+            onChange={handleSearchQuote}
+            value={searchQuote}
+            type="text"
+            name="searchQuote"
+            id="searchQuote"
+          />
+          <label htmlFor="searchCharacter">Filtrar por personaje</label>
+          <select
+            name="searchCharacter"
+            id="searchCharacter"
+            onChange={handleSearchCharacter}
+          >
+            <option value="">Todos</option>
+            <option>Ross</option>
+            <option>Monica</option>
+            <option>Joey</option>
+            <option>Phoebe</option>
+            <option>Chandler</option>
+            <option>Rachel</option>
+          </select>
+        </form>
+      </header>
 
-        <select
-          name="searchCharacter"
-          id="searchCharacter"
-          onChange={handleSearchCharacter}
-        >
-          <option value="">Todos</option>
-          <option>Ross</option>
-          <option>Monica</option>
-          <option>Joey</option>
-          <option>Phoebe</option>
-          <option>Chandler</option>
-          <option>Rachel</option>
-        </select>
-      </form>
-
-      <ul>{htmlData}</ul>
-
-      <h2>Añadir una nueva frase</h2>
-      <form>
-        <label htmlFor="quote">Frase</label>
-        <input
-          onChange={handleNewQuote}
-          value={newQuote.quote}
-          type="text"
-          name="quote"
-          id="quote"
-        />
-        <label htmlFor="character">Personaje</label>
-        <input
-          onChange={handleNewQuote}
-          value={newQuote.character}
-          type="text"
-          name="character"
-          id="character"
-          label="personaje"
-        />
-        <input onClick={handleClick} type="submit" value="Añadir" />
-      </form>
+      <main>
+        <ul>{htmlData}</ul>
+      </main>
+      <footer className="footer">
+        <h2 className="footer__title">Añadir una nueva frase</h2>
+        <form>
+          <label htmlFor="quote">Frase</label>
+          <input
+            onChange={handleNewQuote}
+            value={newQuote.quote}
+            type="text"
+            name="quote"
+            id="quote"
+          />
+          <label htmlFor="character">Personaje</label>
+          <input
+            onChange={handleNewQuote}
+            value={newQuote.character}
+            type="text"
+            name="character"
+            id="character"
+            label="personaje"
+          />
+          <input onClick={handleClick} type="submit" value="Añadir" />
+        </form>
+      </footer>
     </>
   );
 }
