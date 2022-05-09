@@ -11,6 +11,7 @@ function App() {
     quote: "",
     character: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     callToApi().then((response) => {
@@ -28,9 +29,9 @@ function App() {
     )
 
     .map((any, index) => (
-      <li key={index} className="header__form--phrase">
-        <p className="header__form--quote">{any.quote}</p>
-        <p className="header__form--character">{any.character}</p>
+      <li key={index} className="form__phrase">
+        <p className="form__quote">{any.quote}</p>
+        <p className="form__character">{any.character}</p>
       </li>
     ));
 
@@ -40,11 +41,16 @@ function App() {
 
   const handleClick = (ev) => {
     ev.preventDefault();
-    setQuoteData([...quoteData, newQuote]);
-    setNewQuote({
-      quote: "",
-      character: "",
-    });
+    if (newQuote.quote !== "" && newQuote.character !== "") {
+      setQuoteData([...quoteData, newQuote]);
+      setErrorMessage("");
+      setNewQuote({
+        quote: "",
+        character: "",
+      });
+    } else {
+      setErrorMessage("Rellene los campos de texto");
+    }
   };
 
   const handleSearchCharacter = (ev) => {
@@ -53,6 +59,15 @@ function App() {
 
   const handleSearchQuote = (ev) => {
     setSearchQuote(ev.target.value);
+  };
+
+  const message = () => {
+    const length = htmlData.length;
+    if (length > 1) {
+      return "Resultados de su búsqueda:" + length;
+    } else {
+      return "Lo sentimos, no hay resultados para su búsqueda";
+    }
   };
 
   return (
@@ -74,6 +89,7 @@ function App() {
             name="searchCharacter"
             id="searchCharacter"
             onChange={handleSearchCharacter}
+            value={searchCharacter}
           >
             <option value="">Todos</option>
             <option>Ross</option>
@@ -87,6 +103,7 @@ function App() {
       </header>
 
       <main>
+        <p className="form__number">{message}</p>
         <ul>{htmlData}</ul>
       </main>
       <footer className="footer">
@@ -111,6 +128,7 @@ function App() {
           />
           <input onClick={handleClick} type="submit" value="Añadir" />
         </form>
+        <p>{errorMessage}</p>
       </footer>
     </>
   );
